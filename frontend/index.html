@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Price Predictor</title>
+    <style>
+        :root {
+            --light-bg: #f5f5f5;
+            --light-text: #333;
+            --dark-bg: #1a1a1a;
+            --dark-text: #f5f5f5;
+            --primary-color: #4CAF50;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        header {
+            text-align: center;
+            padding: 1em 0;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        select, input, button {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .dark-mode-toggle {
+            margin-top: 20px;
+            cursor: pointer;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bangalore Real Estate Price Predictor</h1>
+    </header>
+    <main>
+        <form id="priceForm">
+            <label for="sqft">Enter Square Feet:</label>
+            <input type="number" id="sqft" name="sqft" required>
+            
+            <label for="location">Select Location:</label>
+            <select id="location" name="location" required>
+                <option value="" selected disabled>Select one of the options</option>
+            </select>
+            <!-- <select id="location" name="location" required>
+                <option value="">Loading locations...</option>
+            </select> -->
+            
+            <label for="bhk">Enter BHK:</label>
+            <input type="number" id="bhk" name="bhk" required>
+            
+            <label for="bath">Enter Bathrooms:</label>
+            <input type="number" id="bath" name="bath" required>
+            
+            <button type="submit">Get Price</button>
+        </form>
+        <div id="result"></div>
+        <button id="reset">Reset</button>
+        <div class="dark-mode-toggle" id="darkModeToggle">Toggle Dark Mode</div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const locationSelect = document.getElementById("location");
+            const resultDiv = document.getElementById("result");
+            const resetButton = document.getElementById("reset");
+            const darkModeToggle = document.getElementById("darkModeToggle");
+
+            // Fetch locations from backend
+            fetch('http://127.0.0.1:5000/get_location_names')
+                .then(response => response.json())
+                .then(data => {
+                    const options = data.locations.map(
+                        location => `<option value="${location}">${location}</option>`
+                    ).join('');
+                    locationSelect.innerHTML += `<option value="others">Others</option>`;
+                    locationSelect.innerHTML += options;
+                })
+                .catch(error => {
+                    locationSelect.innerHTML = `<option value="">Error loading locations</option>`;
+                    console.error('Error fetching locations:', error);
+                });
+
+            // Handle form submission
+            document.getElementById("priceForm").addEventListener("submit", e => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                fetch('http://127.0.0.1:5000/predict_prices', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.innerHTML = `<p>Predicted Price (in INR Lakhs): ₹${data.predicted_price}</p>`;
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<p>Error fetching price</p>`;
+                    console.error('Error fetching price:', error);
+                });
+            });
+
+            // Reset the form and result
+            resetButton.addEventListener("click", () => {
+                document.getElementById("priceForm").reset();
+                resultDiv.innerHTML = '';
+            });
+
+            // Toggle dark mode
+            darkModeToggle.addEventListener("click", () => {
+                document.body.classList.toggle("dark-mode");
+            });
+        });
+    </script>
+</body>
+</html>
