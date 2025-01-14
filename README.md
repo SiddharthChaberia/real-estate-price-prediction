@@ -20,8 +20,8 @@ This will get the backend API's running, which can be accessed in the frontend w
 ### Frontend
 The index.html is already created, so just host it locally, the UI will be ready to predict the housing prices, fetching API's from the local server where the python server.py is running.
 
-UI Demo
-<img src="https://github.com/SiddharthChaberia/real-estate-price-prediction/image.png" width="500" alt="demo">
+## UI Demo
+![DEMO](https://github.com/SiddharthChaberia/real-estate-price-prediction/blob/sidd/image.png)
 
 Feel free to submit changes to improve this repo. Was learning about ML, diving deeper into Flask on how to clean a dataset, create a ML model and import it to the frontend API calls.
 
