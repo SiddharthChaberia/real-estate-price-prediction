@@ -18,7 +18,7 @@ python3 server.py
 This will get the backend API's running, which can be accessed in the frontend with the localserver api keys.
 
 ### Frontend
-The index.html is already created, so just host it locally, the UI will be ready to predict the housing prices, fetching API's from the local server where the python server.py is running.
+The index.html is already created using ChatGPT, so just host it locally, the UI will be ready to predict the housing prices, fetching API's from the local server where the python server.py is running.
 
 ## UI Demo
 ![DEMO](https://github.com/SiddharthChaberia/real-estate-price-prediction/blob/sidd/image.png)
