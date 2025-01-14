@@ -23,7 +23,7 @@ The index.html is already created, so just host it locally, the UI will be ready
 ## UI Demo
 ![DEMO](https://github.com/SiddharthChaberia/real-estate-price-prediction/blob/sidd/image.png)
 
-Feel free to submit changes to improve this repo. Was learning about ML, diving deeper into Flask on how to clean a dataset, create a ML model and import it to the frontend API calls.
+Feel free to submit changes to improve this repo. This project helped me dive deeper into flask, learning on how to clean a dataset and make a ML model out of it, and then importing it to the frontend, using through API calls.
 
 **Connect with me on**:
 * [Linkedin](https://www.linkedin.com/in/siddharth-chaberia/)
